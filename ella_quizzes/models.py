@@ -21,7 +21,7 @@ class Quiz(Publishable):
         return list(self.question_set.order_by('order'))
 
     @property
-    @cache_this(lambda q: 'quiz_questions:%s' % q.id)
+    @cache_this(lambda q: 'quiz_results:%s' % q.id)
     def results(self):
         return dict((r.choice, r) for r in self.result_set.all())
 
