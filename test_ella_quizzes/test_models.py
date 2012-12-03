@@ -77,3 +77,19 @@ class TestQuiz(TestCase):
 
     def test_get_returns_result_for_top_choice(self):
         tools.assert_equals(self.results[1], self.quiz.get_result(['0', '1', '1']))
+
+    def test_validate_choices_passes_for_valid_choices(self):
+        choices = ['0', '1', '1']
+        tools.assert_equals(map(int, choices), self.quiz.clean_choices(choices))
+
+    def test_validate_choices_fails_for_incorrect_choice_count(self):
+        choices = ['0', '1', '1', '2']
+        tools.assert_raises(ValidationError, self.quiz.clean_choices, choices)
+
+    def test_validate_choices_fails_for_incorrect_choice_type(self):
+        choices = ['0', '1', '']
+        tools.assert_raises(ValidationError, self.quiz.clean_choices, choices)
+
+    def test_validate_choices_fails_for_incorect_choice_value(self):
+        choices = ['0', '1', '11']
+        tools.assert_raises(ValidationError, self.quiz.clean_choices, choices)

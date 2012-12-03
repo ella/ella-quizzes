@@ -25,6 +25,20 @@ class Quiz(Publishable):
     def results(self):
         return dict((r.choice, r) for r in self.result_set.all())
 
+    def clean_choices(self, choices):
+        try:
+            choices = map(int, choices)
+        except ValueError:
+            raise ValidationError('Choices must be integers!')
+
+        if len(choices) != len(self.questions):
+            raise ValidationError('There must be an answer for every question')
+
+        if min(choices) < 0 or max(choices) >= self.choices:
+            raise ValidationError('incorrect choice!')
+
+        return choices
+
     def get_result(self, choices):
         top_choice = sorted(Counter(choices).items(), key=itemgetter(1), reverse=True)[0][0]
         return self.results[int(top_choice)]
