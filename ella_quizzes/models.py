@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, namedtuple
 from operator import itemgetter
 
 from django.db import models
@@ -39,6 +39,8 @@ class Result(models.Model):
     class Meta:
         unique_together = (('quiz', 'choice', ), )
 
+Choice = namedtuple('Choice', 'id text')
+
 class Question(models.Model):
     SEPARATOR = '\x01'
 
@@ -58,9 +60,9 @@ class Question(models.Model):
             raise ValidationError('Number of choices must match the Quiz.')
 
     def get_choices(self):
-        return self.choices_data.split(self.SEPARATOR)
+        return map(lambda ch: Choice(*ch), enumerate(self.choices_data.split(self.SEPARATOR)))
 
     def set_choices(self, choices):
-        self.choices_data = self.SEPARATOR.join(choices)
+        self.choices_data = self.SEPARATOR.join(map(itemgetter(1), sorted(choices)))
     choices = property(get_choices, set_choices)
 

@@ -4,19 +4,21 @@ from django.core.exceptions import ValidationError
 from ella.utils.test_helpers import create_basic_categories
 from ella.utils.timezone import now
 
-from ella_quizzes.models import Question, Quiz, Result
+from ella_quizzes.models import Question, Quiz, Result, Choice
 
 from nose import tools
 
 class TestQuestion(TestCase):
+    choices = [Choice(id=i, text=t) for (i, t) in enumerate(('choice 1', 'ch2', 'Uaaaaa, we are all gonna die!!!!'))]
+
     def test_choices_get(self):
         q = Question(choices_data=Question.SEPARATOR.join(['choice 1', 'ch2', 'Uaaaaa, we are all gonna die!!!!']))
 
-        tools.assert_equals(['choice 1', 'ch2', 'Uaaaaa, we are all gonna die!!!!'], q.choices)
+        tools.assert_equals(self.choices, q.choices)
 
     def test_choices_set(self):
         q = Question()
-        q.choices = ['choice 1', 'ch2', 'Uaaaaa, we are all gonna die!!!!']
+        q.choices = self.choices
 
         tools.assert_equals(Question.SEPARATOR.join(['choice 1', 'ch2', 'Uaaaaa, we are all gonna die!!!!']), q.choices_data)
 
