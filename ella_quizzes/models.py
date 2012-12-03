@@ -58,7 +58,7 @@ class Question(models.Model):
             raise ValidationError('Number of choices must match the Quiz.')
 
     def get_choices(self):
-        return self.choices.split(self.SEPARATOR)
+        return self.choices_data.split(self.SEPARATOR)
 
     def set_choices(self, choices):
         self.choices_data = self.SEPARATOR.join(choices)
