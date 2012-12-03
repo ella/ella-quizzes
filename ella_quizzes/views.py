@@ -20,4 +20,4 @@ def get_result(request, context):
     template_name = 'quiz_result.html'
     if request.is_ajax():
         template_name = 'quiz_result_async.html'
-    return TemplateResponse(request, get_templates_from_publishable(quiz, template_name), context)
+    return TemplateResponse(request, get_templates_from_publishable(template_name, quiz), context)
