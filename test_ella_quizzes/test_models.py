@@ -72,8 +72,8 @@ class TestQuiz(TestCase):
                 order=x,
                 text='WTF %d?!' % x,
                 choices_data=Question.SEPARATOR.join('%d FTW!' % ch for ch in range(3))
-            ) for x in range(5)
+            ) for x in range(3)
         ]
 
     def test_get_returns_result_for_top_choice(self):
-        tools.assert_equals(self.results[1], self.quiz.get_result(['0', '1', '2', '1', '1']))
+        tools.assert_equals(self.results[1], self.quiz.get_result(['0', '1', '1']))
