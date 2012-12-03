@@ -37,6 +37,7 @@ class Quiz(Publishable):
         if min(choices) < 0 or max(choices) >= self.choices:
             raise ValidationError('incorrect choice!')
 
+        # TODO: convert to Choice objects?
         return choices
 
     def get_result(self, choices):
@@ -53,6 +54,7 @@ class Result(models.Model):
     class Meta:
         unique_together = (('quiz', 'choice', ), )
 
+# forwards-compatible wrapper around individual choices for a question
 Choice = namedtuple('Choice', 'id text')
 
 class Question(models.Model):
@@ -74,6 +76,7 @@ class Question(models.Model):
             raise ValidationError('Number of choices must match the Quiz.')
 
     def get_choices(self):
+        # TODO: maybe a SortedDict would be better?
         return map(lambda ch: Choice(*ch), enumerate(self.choices_data.split(self.SEPARATOR)))
 
     def set_choices(self, choices):
