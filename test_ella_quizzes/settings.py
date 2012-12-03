@@ -42,4 +42,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
 
     'ella_quizzes',
+    'ella.core',
+    'ella.photos',
 )
