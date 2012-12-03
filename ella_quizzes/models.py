@@ -50,6 +50,9 @@ class Question(models.Model):
 
     choices_data = models.TextField()
 
+    class Meta:
+        unique_together = (('quiz', 'order', ), )
+
     def clean(self):
         if len(self.choices) != self.quiz.choices:
             raise ValidationError('Number of choices must match the Quiz.')
