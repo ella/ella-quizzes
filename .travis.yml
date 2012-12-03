@@ -1,7 +1,5 @@
 language: python
 python:
-  - "2.5"
-  - "2.6"
   - "2.7"
 install:
    - "if [[ $DJANGO_VERSION == 'dev' ]]; then pip install https://github.com/django/django/archive/master.tar.gz#egg=Django; else pip install Django==$DJANGO_VERSION --use-mirrors; fi"
