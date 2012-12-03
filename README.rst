@@ -1,1 +1,1 @@
-APP_NAME whatever
+ella_quizzes whatever

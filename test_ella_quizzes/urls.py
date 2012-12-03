@@ -6,5 +6,5 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^', include('APP_NAME.urls')),
+    url(r'^', include('ella_quizzes.urls')),
 ) + staticfiles_urlpatterns()

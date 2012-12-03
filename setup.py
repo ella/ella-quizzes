@@ -19,14 +19,14 @@ test_requires = [
 ]
 
 setup(
-    name = 'APP_NAME',
-    description = "APP_NAME",
-    url = "https://github.com/ella/APP_NAME/",
+    name = 'ella-quizzes',
+    description = "ella-quizzes",
+    url = "https://github.com/ella/ella-quizzes/",
     long_description = long_description,
     version = __versionstr__,
     author = "ella",
     author_email = "ella.project@gmail.com",
-    packages = ['APP_NAME'],
+    packages = ['ella_quizzes'],
     zip_safe = False,
     include_package_data = True,
     classifiers = [
@@ -36,6 +36,6 @@ setup(
     ],
     install_requires=install_requires,
 
-    test_suite='test_APP_NAME.run_tests.run_all',
+    test_suite='test_ella_quizzes.run_tests.run_all',
     test_requires=test_requires,
 )
