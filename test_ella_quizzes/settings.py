@@ -41,7 +41,9 @@ INSTALLED_APPS = (
     'django.contrib.redirects',
     'django.contrib.admin',
 
-    'ella_quizzes',
     'ella.core',
     'ella.photos',
+    'ella.articles',
+
+    'ella_quizzes',
 )
