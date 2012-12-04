@@ -33,6 +33,11 @@ class TestResultFormSet(QuizTestCase):
 
         tools.assert_true(formset.is_valid())
 
+    def test_formset_validates_even_qithout_saved_quiz(self):
+        formset = ResultFormset(instance=Quiz(choices=3), data=self.data)
+
+        tools.assert_true(formset.is_valid())
+
     def test_formset_fails_if_not_all_choices_are_covered(self):
         del self.data['%s-2-choice' % prefix]
         del self.data['%s-2-text' % prefix]

@@ -4,11 +4,23 @@ from django.core.exceptions import ValidationError
 class ResultInlineFormset(BaseInlineFormSet):
     def clean(self):
         super(ResultInlineFormset, self).clean()
-        # we need save to populate [changed|deleted|new]_objects
-        self.save(commit=False)
 
-        new_choices = set(result.choice for result in self.new_objects + self.changed_objects)
         required_choices = set(range(self.instance.choices))
+
+        new_choices = set()
+        # go through existing Results and check
+        for form in self.initial_forms:
+            # deleted form, skip
+            if self.can_delete and self._should_delete_form(form):
+                continue
+            new_choices.add(form.cleaned_data['choice'])
+
+        # new Results
+        for form in self.extra_forms:
+            # not changed, not adding a Result
+            if not form.has_changed():
+                continue
+            new_choices.add(form.cleaned_data['choice'])
 
         missing = required_choices - new_choices
         if missing:
