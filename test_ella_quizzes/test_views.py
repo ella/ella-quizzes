@@ -4,7 +4,7 @@ from ella_quizzes.views import get_result
 
 from nose import tools
 
-from test_ella_quizzes.cases import QuizTestCase
+from .cases import QuizTestCase
 
 class TestResulView(QuizTestCase):
     def setUp(self):

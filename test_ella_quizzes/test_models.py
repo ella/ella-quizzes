@@ -5,7 +5,7 @@ from ella_quizzes.models import Question, Quiz, Choice
 
 from nose import tools
 
-from test_ella_quizzes.cases import QuizTestCase
+from .cases import QuizTestCase
 
 class TestQuestion(TestCase):
     choices = [Choice(id=i, text=t) for (i, t) in enumerate(('choice 1', 'ch2', 'Uaaaaa, we are all gonna die!!!!'))]
