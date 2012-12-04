@@ -13,7 +13,7 @@ class Quiz(Publishable):
     intro_title = models.CharField(max_length=200)
     intro_text = models.TextField()
 
-    choices = models.PositiveIntegerField(help_text='Number of choices for every choice.')
+    choices = models.PositiveIntegerField(help_text='Number of choices for every question.')
 
     @property
     @cache_this(lambda q: 'quiz_questions:%s' % q.id)
