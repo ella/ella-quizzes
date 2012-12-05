@@ -51,6 +51,7 @@ class Result(models.Model):
     choice = models.IntegerField()
 
     photo = CachedForeignKey(Photo, blank=True, null=True, on_delete=models.SET_NULL)
+    title = models.CharField(max_length=200)
     text = models.TextField()
 
     # generic JSON field to store app specific data
