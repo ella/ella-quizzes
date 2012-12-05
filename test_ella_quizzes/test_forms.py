@@ -19,12 +19,15 @@ class TestResultFormSet(QuizTestCase):
             '%s-INITIAL_FORMS' % prefix: '0',
 
             '%s-0-choice' % prefix: '0',
+            '%s-0-title' % prefix: 'title 0',
             '%s-0-text' % prefix: 'text 0',
 
             '%s-1-choice' % prefix: '1',
+            '%s-1-title' % prefix: 'title 1',
             '%s-1-text' % prefix: 'text 1',
 
             '%s-2-choice' % prefix: '2',
+            '%s-2-title' % prefix: 'title 2',
             '%s-2-text' % prefix: 'text 2',
         }
 
@@ -40,6 +43,7 @@ class TestResultFormSet(QuizTestCase):
 
     def test_formset_fails_if_not_all_choices_are_covered(self):
         del self.data['%s-2-choice' % prefix]
+        del self.data['%s-2-title' % prefix]
         del self.data['%s-2-text' % prefix]
         formset = ResultFormset(instance=self.quiz, data=self.data)
 
@@ -47,6 +51,7 @@ class TestResultFormSet(QuizTestCase):
 
     def test_formset_fails_if_there_are_extra_choices(self):
         self.data['%s-3-choice' % prefix] = '3'
+        self.data['%s-3-title' % prefix] = 'title 3'
         self.data['%s-3-text' % prefix] = 'Text 3'
         formset = ResultFormset(instance=self.quiz, data=self.data)
 
