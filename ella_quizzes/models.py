@@ -4,6 +4,8 @@ from operator import itemgetter
 from django.db import models
 from django.core.exceptions import ValidationError
 
+from app_data import AppDataField
+
 from ella.core.models import Publishable
 from ella.photos.models import Photo
 from ella.core.cache import CachedForeignKey, cache_this
@@ -51,6 +53,9 @@ class Result(models.Model):
     photo = CachedForeignKey(Photo, blank=True, null=True, on_delete=models.SET_NULL)
     text = models.TextField()
 
+    # generic JSON field to store app specific data
+    app_data = AppDataField(default='{}', editable=False)
+
     class Meta:
         unique_together = (('quiz', 'choice', ), )
 
@@ -82,4 +87,3 @@ class Question(models.Model):
     def set_choices(self, choices):
         self.choices_data = self.SEPARATOR.join(map(itemgetter(1), sorted(choices)))
     choices = property(get_choices, set_choices)
-
