@@ -6,7 +6,6 @@ from django.core.exceptions import ValidationError
 from ella.core.views import get_templates_from_publishable
 from ella.core.cache import get_cached_object_or_404
 from ella_quizzes.models import Result
-from ella.core.custom_urls import resolver
 
 @require_POST
 def calculate(request, context):
@@ -19,7 +18,7 @@ def calculate(request, context):
         return HttpResponseBadRequest(e.message)
 
     result = quiz.get_result(choices)
-    return HttpResponseRedirect(resolver.reverse(quiz, 'quiz-result', result_id=result.id))
+    return HttpResponseRedirect(result.get_absolute_url())
 
 def get_result(request, context, result_id):
     context['result'] = get_cached_object_or_404(Result, id=result_id)
