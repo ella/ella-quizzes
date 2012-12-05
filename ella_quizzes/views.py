@@ -1,12 +1,15 @@
 from django.template.response import TemplateResponse
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.core.exceptions import ValidationError
 
 from ella.core.views import get_templates_from_publishable
+from ella.core.cache import get_cached_object_or_404
+from ella_quizzes.models import Result
+from ella.core.custom_urls import resolver
 
 @require_POST
-def get_result(request, context):
+def calculate(request, context):
     choices = request.POST.getlist('choices')
     quiz = context['object']
 
@@ -15,7 +18,12 @@ def get_result(request, context):
     except ValidationError, e:
         return HttpResponseBadRequest(e.message)
 
-    context['result'] = quiz.get_result(choices)
+    result = quiz.get_result(choices)
+    return HttpResponseRedirect(resolver.reverse(quiz, 'quiz-result', result_id=result.id))
+
+def get_result(request, context, result_id):
+    context['result'] = get_cached_object_or_404(Result, id=result_id)
+    quiz = context['object']
 
     template_name = 'quiz_result.html'
     if request.is_ajax():

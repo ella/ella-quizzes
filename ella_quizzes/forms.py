@@ -1,5 +1,13 @@
+from django import forms
 from django.forms.models import BaseInlineFormSet
 from django.core.exceptions import ValidationError
+from app_data.forms import multiform_factory
+from .models import Result
+
+class ResultForm(forms.ModelForm):
+    class Meta:
+        model = Result
+ResultMultiForm = multiform_factory(ResultForm)
 
 class ResultInlineFormset(BaseInlineFormSet):
     def clean(self):
