@@ -13,6 +13,10 @@ class ResultInlineFormset(BaseInlineFormSet):
     def clean(self):
         super(ResultInlineFormset, self).clean()
 
+        # non-valid Quiz, don't bother
+        if self.instance.choices is None:
+            return
+
         required_choices = set(range(self.instance.choices))
 
         new_choices = set()
