@@ -18,7 +18,7 @@ class TestResulView(QuizTestCase):
 
         response = calculate(request, self.context)
         tools.assert_equals(302, response.status_code)
-        tools.assert_true('/%s/' % self.results[1].id in response['Location'])
+        tools.assert_true(response['Location'].endswith('/%s/' % self.results[1].choice))
 
     def test_bad_request_on_incorrect_choices(self):
         response = self.client.post(self.url, {'choices': ['0', '1', 'X']})
@@ -27,5 +27,5 @@ class TestResulView(QuizTestCase):
 
     def test_get_result(self):
         request = self.rf.get(self.url + '1/')
-        response = get_result(request, self.context, result_id=self.results[1].id)
+        response = get_result(request, self.context, choice=self.results[1].choice)
         tools.assert_equals(self.results[1], response.context_data['result'])

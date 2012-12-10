@@ -62,7 +62,7 @@ class Result(models.Model):
         unique_together = (('quiz', 'choice', ), )
 
     def get_absolute_url(self):
-        return resolver.reverse(self.quiz, 'quiz-result', result_id=self.id)
+        return resolver.reverse(self.quiz, 'quiz-result', choice=self.choice)
 
 # forwards-compatible wrapper around individual choices for a question
 Choice = namedtuple('Choice', 'id text')
