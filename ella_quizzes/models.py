@@ -3,6 +3,9 @@ from operator import itemgetter
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.core.cache import cache
 
 from app_data import AppDataField
 
@@ -64,6 +67,12 @@ class Result(models.Model):
     def get_absolute_url(self):
         return resolver.reverse(self.quiz, 'quiz-result', choice=self.choice)
 
+@receiver(post_delete, sender=Result)
+@receiver(post_save, sender=Result)
+def invalidate_results_cache(sender, instance, **kwargs):
+    if getattr(instance, 'quiz_id', None):
+        cache.delete('quiz_results:%s' % instance.quiz_id)
+
 # forwards-compatible wrapper around individual choices for a question
 Choice = namedtuple('Choice', 'id text')
 
@@ -92,3 +101,9 @@ class Question(models.Model):
     def set_choices(self, choices):
         self.choices_data = self.SEPARATOR.join(map(itemgetter(1), sorted(choices)))
     choices = property(get_choices, set_choices)
+
+@receiver(post_delete, sender=Question)
+@receiver(post_save, sender=Question)
+def invalidate_question_cache(sender, instance, **kwargs):
+    if getattr(instance, 'quiz_id', None):
+        cache.delete('quiz_questions:%s' % instance.quiz_id)
